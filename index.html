@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR PDF Reader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📄 OCR PDF Reader</h1>
+            <p class="subtitle">Extract text from PDF files with precision</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <h2>Upload PDF or ZIP File</h2>
+                <p>Click to browse or drag and drop your PDF or ZIP file here</p>
+                <p style="font-size: 0.85rem; color: #6b7280; margin-top: 10px;">ZIP files can contain multiple PDFs for batch processing</p>
+                <input type="file" id="fileInput" accept=".pdf,.zip" hidden>
+            </div>
+        </div>
+
+        <div class="controls" id="controls" style="display: none;">
+            <button id="downloadBtn" class="btn btn-secondary" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/>
+                </svg>
+                Download Text
+            </button>
+            <button id="clearBtn" class="btn btn-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear
+            </button>
+        </div>
+
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p class="progress-text" id="progressText">Processing...</p>
+        </div>
+
+        <div class="content-area" style="display: none;" id="contentArea">
+            <div class="preview-section">
+                <h3>PDF Preview</h3>
+                <div class="pdf-controls">
+                    <button id="prevPage" class="btn-small">← Previous</button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button id="nextPage" class="btn-small">Next →</button>
+                </div>
+                <canvas id="pdfCanvas"></canvas>
+            </div>
+
+            <div class="analysis-section">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="text">📝 Text</button>
+                    <button class="tab-btn" data-tab="categories">🏷️ Categories</button>
+                    <button class="tab-btn" data-tab="opportunities">💡 Opportunities</button>
+                    <button class="tab-btn" data-tab="quotes">💬 Quotes</button>
+                </div>
+
+                <div class="tab-content active" id="textTab">
+                    <h3>Extracted Text</h3>
+                    <textarea id="outputText" placeholder="Extracted text will appear here..." readonly></textarea>
+                </div>
+
+                <div class="tab-content" id="categoriesTab">
+                    <h3>Content Categories</h3>
+                    <div id="categoriesContainer" class="table-container">
+                        <p class="empty-state">Processing PDF to categorize content...</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="opportunitiesTab">
+                    <h3>Detected Opportunities</h3>
+                    <div id="opportunitiesContainer" class="table-container">
+                        <p class="empty-state">Processing PDF to detect opportunities...</p>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="quotesTab">
+                    <h3>Extracted Quotes</h3>
+                    <div id="quotesContainer" class="table-container">
+                        <p class="empty-state">Processing PDF to extract quotes...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
